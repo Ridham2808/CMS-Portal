@@ -6,12 +6,10 @@ import java.sql.SQLException;
 
 public class DatabaseConfig {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/cms_db";
-    private static final String USERNAME = "root";
-    // ⚠️ SECURITY WARNING: NEVER COMMIT REAL PASSWORDS TO GITHUB! ⚠️
-    // Use Environment Variables like System.getenv("DB_PASSWORD") or keep them strictly local.
-    // For local testing, put your password here but DO NOT push it to the remote repository!
-    private static final String PASSWORD = "YOUR_MYSQL_PASSWORD_HERE"; 
+    private static final String URL = "jdbc:mysql://mysql-3a418559-ridham-aeed.i.aivencloud.com:23165/defaultdb";
+    private static final String USERNAME = "avnadmin";
+    // Fetch password from Render environment variable to pass GitHub Secret Scanning
+    private static final String PASSWORD = System.getenv("AIVEN_PASSWORD") != null ? System.getenv("AIVEN_PASSWORD") : "YOUR_LOCAL_TEST_APP_PASSWORD";
 
     static {
         try {
