@@ -24,5 +24,5 @@ CREATE TABLE IF NOT EXISTS complaints (
     FOREIGN KEY (technician_id) REFERENCES users(id) ON DELETE SET NULL
 );
 
--- Insert a default admin for initial login
-INSERT IGNORE INTO users (name, email, password, role) VALUES ('Ridham', 'ridham.patel.cg@gmail.com', 'Ridham123', 'ADMIN');
+-- Insert a default admin for initial login (Change these credentials immediately after deployment!)
+INSERT IGNORE INTO users (name, email, password, role) VALUES ('Admin', 'admin@example.com', 'admin123', 'ADMIN');
