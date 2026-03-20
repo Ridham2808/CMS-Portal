@@ -83,7 +83,8 @@
     <script>
         // WebSockets Notification Client
         const userId = "${sessionScope.user.id}";
-        const wsUrl = "ws://" + window.location.host + "/ws/notifications/USER/" + userId;
+        const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+        const wsUrl = protocol + window.location.host + "/ws/notifications/USER/" + userId;
         const ws = new WebSocket(wsUrl);
         
         ws.onmessage = function(event) {

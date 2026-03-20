@@ -119,7 +119,8 @@
 
     <script>
         // WebSockets Notification Client
-        const wsUrl = "ws://" + window.location.host + "/ws/notifications/ADMIN/admin";
+        const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+        const wsUrl = protocol + window.location.host + "/ws/notifications/ADMIN/admin";
         const ws = new WebSocket(wsUrl);
         
         ws.onmessage = function(event) {
