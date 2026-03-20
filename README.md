@@ -5,13 +5,19 @@
   <p>
     Seamlessly resolve, track, and manage user complaints with a robust Java Servlet architecture, real-time WebSocket notifications, and an aesthetically superior User Interface.
   </p>
+  
+  <br/>
+  <a href="https://cms-portal-8jiy.onrender.com" target="_blank">
+    <img src="https://img.shields.io/badge/🔴_LIVE_DEMO_-CLICK_HERE_TO_OVERSIGHT-00F0FF?style=for-the-badge&logo=render&logoColor=black&labelColor=2b2b2b" alt="Live Demo Button" />
+  </a>
+  <br/><br/>
 
   <!-- Badges -->
   <p>
     <img src="https://img.shields.io/badge/Java-11+-orange.svg?style=for-the-badge&logo=java" alt="Java">
-    <img src="https://img.shields.io/badge/Maven-3.8+-C71A22.svg?style=for-the-badge&logo=apachemaven&logoColor=white" alt="Maven">
-    <img src="https://img.shields.io/badge/Jakarta%20EE-Servlets%20&%20JSP-007396.svg?style=for-the-badge&logo=eclipse:jakartaee&logoColor=white" alt="Jakarta EE">
-    <img src="https://img.shields.io/badge/MySQL-8.0+-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL">
+    <img src="https://img.shields.io/badge/Render-Deployed-46E3B7.svg?style=for-the-badge&logo=render&logoColor=white" alt="Render">
+    <img src="https://img.shields.io/badge/Aiven-MySQL%20Cloud-FF3A3A.svg?style=for-the-badge&logo=mysql&logoColor=white" alt="Aiven">
+    <img src="https://img.shields.io/badge/Docker-Containerized-2496ED.svg?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
     <img src="https://img.shields.io/badge/WebSockets-Real%20Time-black.svg?style=for-the-badge&logo=socket.io" alt="Websockets">
   </p>
 </div>
@@ -24,10 +30,10 @@ Our system is engineered to handle complex user grievances efficiently, ensuring
 
 - 🔐 **Multi-Role Authentication**: Secure login for `Admin`, `Technician`, and `User`.
 - 🎫 **Smart Ticketing**: Lodge complaints with priorities, categories, and severity tags.
-- ⚡ **Real-Time Updates**: Instant alerts powered by **WebSockets**. No page refreshes!
-- 📊 **Futuristic Dashboard**: Glassmorphism UI, advanced filtering, and instant data previews.
+- ⚡ **Real-Time Updates**: Instant alerts powered by **WebSockets (wss://)**. No page refreshes!
+- 📊 **Futuristic Dashboard**: Glassmorphism UI, advanced filtering, and instant data previews (Powered by Chart.js).
 - 👨‍🔧 **Technician Portal**: Dedicated portal for technicians to pick up tickets, update status, and close issues.
-- 🛡️ **Zero Data Leakage**: Prepared with proper `.gitignore` and security practices.
+- ☁️ **Cloud Native**: Pre-configured for Docker, Render deployments, and Aiven Cloud Database.
 
 ---
 
@@ -39,32 +45,31 @@ Our system is engineered to handle complex user grievances efficiently, ensuring
 graph TD
     %% Define Styles
     classDef client fill:#003366,stroke:#00BFFF,stroke-width:3px,color:#fff;
-    classDef server fill:#2b2b2b,stroke:#FF8C00,stroke-width:3px,color:#fff;
-    classDef db fill:#4A148C,stroke:#B39DDB,stroke-width:3px,color:#fff;
+    classDef cloud fill:#2b2b2b,stroke:#46E3B7,stroke-width:3px,color:#fff;
+    classDef db fill:#4A148C,stroke:#FF3A3A,stroke-width:3px,color:#fff;
     classDef realTime fill:#880E4F,stroke:#F48FB1,stroke-width:3px,color:#fff;
 
     %% Nodes
     A[🧑‍💻 Modern Browser Client<br>HTML / CSS / JS]:::client
-    B[Tomcat Web Server<br>Servlets & JSP]:::server
-    C[(MySQL Database<br>CMS DB)]:::db
-    D[⚡ NotificationServer<br>WebSocket Endpoint]:::realTime
+    B[Render Web Service<br>Apache Tomcat container]:::cloud
+    C[(Aiven Cloud MySQL<br>defaultdb)]:::db
+    D[⚡ NotificationServer<br>WSS Endpoint on Render]:::realTime
 
     %% Relationships
-    A -->|HTTP GET/POST Request| B
-    B -->|JDBC SQL Queries| C
-    C -.->|ResultSet Data| B
+    A -->|HTTPS GET/POST Request| B
+    B <-->|JDBC API Connection| C
     B -.->|Generates JSP Response| A
     
-    A <-->|WebSocket Connection / Real-time Push| D
+    A <-->|Secure WSS Connection| D
     B -.->|Triggers Update| D
 ```
 
 ### **Core Components**
 * **Frontend**: JSP, HTML5, CSS3, Vanilla JS (Glassmorphism UI)
-* **Backend**: Java Servlets, JSTL
-* **Real-time Logic**: `javax.websocket` Api 
-* **Database**: MySQL Connect/J (JDBC driver)
-* **Build System**: Apache Maven (`pom.xml`)
+* **Backend Engine**: Java Servlets, JSTL running on Tomcat 9.0
+* **Real-time Logic**: `javax.websocket` Api (Supports both local `ws://` and production `wss://`)
+* **Database**: Hosted remotely on **Aiven** MySQL 8.
+* **Build System**: Apache Maven (`pom.xml`) & Docker (`Dockerfile`).
 
 ---
 
@@ -77,7 +82,7 @@ graph TD
  ┃ ┃ ┣ 📂 dao/           # Data Access Objects (DB handlers)
  ┃ ┃ ┣ 📂 model/         # Java Beans / Entities
  ┃ ┃ ┣ 📂 servlet/       # Request Controllers
- ┃ ┃ ┣ 📂 util/          # Utilities (DB Configuration)
+ ┃ ┃ ┣ 📂 util/          # Utilities (DatabaseConfig injected by Render Env)
  ┃ ┃ ┗ 📂 websocket/     # Real-time Servers
  ┃ ┗ 📂 webapp/          # Frontend & WEB-INF
  ┃   ┣ 📂 css/           # Styling & Animations
@@ -85,10 +90,26 @@ graph TD
  ┃   ┣ 📜 index.jsp      # Landing Page
  ┃   ┗ 📜 ...            # Other Dashboards & Views
  ┣ 📜 pom.xml            # Maven Dependencies & Build
+ ┣ 📜 Dockerfile         # Docker instructions for Render Cloud
  ┣ 📜 schema.sql         # DB Setup Scripts
  ┣ 📜 alter.sql          # DB Modifications
  ┗ 📜 README.md          # You are here!
 ```
+
+---
+
+## 🌐 Cloud Deployment Guide (Render + Aiven)
+
+This project has been successfully containerized and deployed to the internet! Here is how the cloud ecosystem works:
+
+### 1️⃣ Database (Aiven Cloud)
+Instead of relying on a local MySQL engine, the tables (`schema.sql` & `alter.sql`) were injected into a free MySQL 8 cluster hosted on **Aiven**. 
+* Because Aiven protects the DB creation rights and enforces the `defaultdb` name, the SQL scripts are optimized to run sequentially via the `mysql` CLI without `CREATE DATABASE` commands.
+
+### 2️⃣ Web Service (Render.com)
+The frontend and backend monolithic `.war` package is hosted on **Render**. 
+* We created a multi-stage `Dockerfile` that uses `maven:3.8.4-openjdk-11` to clean and compile the project, and then seamlessly hands it over to `tomcat:9.0-jdk11` to run the active servlets.
+* **Security:** Instead of hardcoding the Aiven Database password inside the public GitHub code, `DatabaseConfig.java` pulls the secret dynamically using `System.getenv("AIVEN_PASSWORD")`. The password is securely stored as an Environment Variable inside the Render Dashboard to respect GitHub's Push Protection policies.
 
 ---
 
@@ -100,16 +121,9 @@ graph TD
 - **MySQL Server** installed and running.
 
 ### 2️⃣ Database Configuration
-1. Login to your MySQL server: `mysql -u root -p`
-2. Create the database and import the schemas:
-   ```sql
-   CREATE DATABASE cms_db;
-   USE cms_db;
-   source /path/to/schema.sql;
-   source /path/to/alter.sql;
-   ```
-3. **Configure connection details**: Open `src/main/java/com/cms/util/DatabaseConfig.java` and type in your local MySQL password.
-   > **⚠️ IMPORTANT:** Do **NOT** commit your real database password to GitHub! Always change it to a dummy password like "YOUR_PASSWORD" before using `git push`.
+1. Login to your local MySQL server: `mysql -u root -p`
+2. Create the database and import the schemas.
+3. **Configure connection details**: Open `src/main/java/com/cms/util/DatabaseConfig.java` and type in your local MySQL password where the fallback string expects it.
 
 ### 3️⃣ Build and Run
 1. Open up a terminal in the root project folder.
@@ -126,24 +140,6 @@ graph TD
 
 ---
 
-## 🔐 GitHub Upload Guide (IMPORTANT!)
-
-**Uploading to GitHub without exposing your database password:**
-1. **Database Password**: Your local DB password should never go into GitHub. We have provided instructions inside `DatabaseConfig.java`. When pushing, make sure the password in the code says `YOUR_MYSQL_PASSWORD_HERE`.
-2. **Gitignore Setup**: We have added a proper `.gitignore` file that hides heavy compiled dependencies like the `target/` directory and `.class` files. You don't need `node_modules` for a Java backend project to be ignored; the Maven equivalent has been handled for you.
-
-To safely push to GitHub, run:
-```bash
-git init
-git add .
-git commit -m "🚀 Initial release of futuristic CMS Portal"
-git remote add origin https://github.com/YourUsername/YourRepoName.git
-git branch -M main
-git push -u origin main
-```
-
----
-
 <div align="center">
-  <p>Built with ❤️. Taking ticket management to the next century.</p>
+  <p>Built with ❤️. Taking ticket management to the cloud.</p>
 </div>
